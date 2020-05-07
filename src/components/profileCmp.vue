@@ -61,10 +61,11 @@ export default {
         justify-content: space-between;
         margin: 15px;
         max-height: 300px;
+        width: 300px;
     }
     #topContainer{
         border-radius: 15px;
-        background-color: #4b8cee;
+        background-color: #77abfa;
         display:flex;
         flex-direction: column;
         align-items: center;

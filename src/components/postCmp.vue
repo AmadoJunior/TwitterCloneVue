@@ -4,6 +4,11 @@
         <div id="content">
             <h4>{{userName}}</h4>
             <p>{{postMessage}}</p>
+            <dir id="actions">
+                <img class="actions" src="./../assets/PostIcons/favoritex1.png" alt="">
+                <img class="actions" src="./../assets/PostIcons/retweetx1.png" alt="">
+                <img class="actions" src="./../assets/PostIcons/replyx1.png" alt="">
+            </dir>
         </div>
     </div>
 </template>
@@ -47,5 +52,17 @@ export default {
     }
     #content{
         
+    }
+    #actions{
+        margin: 0px 0px 15px 0px;
+        padding: 0px;
+        display:flex;
+        justify-content: flex-start;
+        max-width: 300px;
+    }
+    .actions{
+        padding: 5px;
+        margin: 0px 70px 0px 0px;
+        transform: scale(1.05);
     }
 </style>

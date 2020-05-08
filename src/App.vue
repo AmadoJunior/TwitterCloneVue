@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <profileCmp/>
+    <profileCmp v-if="state.loggedIn" />
+    <logInCmp v-else />
     <div id="posts">
       <postCmp v-for="post in posts" 
       :key="post.userName" 
@@ -14,12 +15,15 @@
 <script>
 import postCmp from "./components/postCmp";
 import profileCmp from "./components/profileCmp";
+import logInCmp from "./components/logInCmp";
+import {store} from "./main";
 
 export default {
   name: 'App',
   components: {
     postCmp,
-    profileCmp
+    profileCmp,
+    logInCmp
   },
   data(){
     return{
@@ -40,7 +44,8 @@ export default {
           userName: "Cal",
           postMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi erat, vestibulum vel egestas at, porttitor eget leo. Curabitur id consectetur eros. Fusce vel ex eget urna viverra lobortis. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit."
         },
-      ]
+      ],
+      state: store.state
     }
   }
 }
@@ -49,6 +54,11 @@ export default {
 <style>
 body{
   margin: 0px;
+}
+textarea, input{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  border:solid 1px #c1c1c1;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -19,7 +19,7 @@
                     50
                 </span>
                 <span>
-                    TWEETS
+                    POSTS
                 </span>
             </div>
             <div class="statContainer">
@@ -32,14 +32,41 @@
             </div>
         </div>
 
-        <input type="text" placeholder="Write a new Tweet ..." class="input">
-
+        <textarea type="text" 
+        placeholder="Write a new Post ..." 
+        class="input" 
+        @focus="toggleExpand()" 
+        @blur="toggleExpand()" 
+        v-model="postMessage" >
+        </textarea>
+        <button id="postButton" 
+        :class="{writing: isWriting, inactive: isInactive}"
+        @click="post()"
+        >Post</button>
+        
     </div>
 </template>
 
 <script>
 export default {
-    
+    data(){
+        return{
+            isWriting: false,
+            isInactive: true,
+            postMessage: ""
+        }
+    },
+    methods:{
+        toggleExpand(){
+            setTimeout(()=>{
+                this.isWriting = !this.isWriting;
+                this.isInactive = !this.isInactive;
+            }, 200);
+        },
+        post(){
+            this.postMessage = "";
+        }
+    }
 }
 </script>
 
@@ -53,6 +80,7 @@ export default {
         margin-top: 0px;
     }
     #profileContainer{
+        position: relative;
         background-color: white;
         border-radius: 15px;
         border: solid 1px #c1c1c1;
@@ -60,7 +88,7 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         margin: 15px;
-        max-height: 300px;
+        max-height: 400px;
         width: 300px;
     }
     #topContainer{
@@ -70,13 +98,39 @@ export default {
         flex-direction: column;
         align-items: center;
         padding: 15px;
+        margin: -1px;
     }
     .input{
+        resize: none;
         border-radius: 15px;
-        border: solid 1px #c1c1c1;
         background-color: #f0f0f0;
         background-color: #f0f0f0;
         padding: 10px;
+        height: 15px;
+        transition: 1s;
+        margin: -1px;
+    }
+    .input:focus{
+        height: 150px;
+    }
+    #postButton{
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        width: 80px;
+        margin-left: -40px;
+        padding:6px;
+        background-color: #4b8cee;
+        color: white;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+    }
+    .writing{
+        display: static;
+    }
+    .inactive{
+        display:none;
     }
     #stats{
         display:flex;

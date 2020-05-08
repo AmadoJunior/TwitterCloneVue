@@ -2,7 +2,7 @@
     <div id="profileContainer">
         <div id="topContainer">
             <img src="./../assets/tempProfile.png">
-            <h3>Joselyn Flores</h3>
+            <h3>{{state.userData.userName}}</h3>
         </div>
 
         <div id="stats">
@@ -48,12 +48,16 @@
 </template>
 
 <script>
+import Post from "./../tools/postService";
+import {store} from "./../main";
+
 export default {
     data(){
         return{
             isWriting: false,
             isInactive: true,
-            postMessage: ""
+            postMessage: "",
+            state: store.state
         }
     },
     methods:{
@@ -64,6 +68,7 @@ export default {
             }, 200);
         },
         post(){
+            Post.sendPost(this.state.userData.userName, this.postMessage);
             this.postMessage = "";
         }
     }

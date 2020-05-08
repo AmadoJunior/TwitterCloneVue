@@ -1,5 +1,7 @@
 import axios from "axios"
 
+const url = "api/user/login/";
+
 class User{
     static async getToken(userName, email, password){
         const data = {
@@ -7,7 +9,7 @@ class User{
             email: email,
             password: password
         }
-        const response = await axios.post("api/user/login/", data);
+        const response = await axios.post(url, data);
         return new Promise(
             (resolve, reject) => {
                 try{

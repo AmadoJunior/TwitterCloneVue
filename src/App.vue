@@ -4,9 +4,9 @@
     <logInCmp v-else />
     <div id="posts">
       <postCmp v-for="post in posts" 
-      :key="post.userName" 
+      :key="post._id" 
       :userName="post.userName" 
-      :postMessage="post.postMessage" 
+      :postMessage="post.message" 
       />
     </div>
   </div>
@@ -17,6 +17,7 @@ import postCmp from "./components/postCmp";
 import profileCmp from "./components/profileCmp";
 import logInCmp from "./components/logInCmp";
 import {store} from "./main";
+import Post from "./tools/postService";
 
 export default {
   name: 'App',
@@ -27,26 +28,17 @@ export default {
   },
   data(){
     return{
-      posts:[
-        {
-          userName: "Jest",
-          postMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi erat, vestibulum vel egestas at, porttitor eget leo. Curabitur id consectetur eros. Fusce vel ex eget urna viverra lobortis. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit. Curabitur id consectetur eros. Fusce vel ex eget urna viverra lobortis. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit."
-        },
-        {
-          userName: "Ford",
-          postMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi erat, vestibulum vel egestas at, porttitor eget leo. Curabitur id consectetur eros. Fusce vel ex eget urna viverra lobortis. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit. #Loremipsum"
-        },
-        {
-          userName: "Sparkling",
-          postMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi erat, vestibulum vel egestas at, porttitor eget leo."
-        },
-        {
-          userName: "Cal",
-          postMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi erat, vestibulum vel egestas at, porttitor eget leo. Curabitur id consectetur eros. Fusce vel ex eget urna viverra lobortis. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit. Pellentesque hendrerit purus at nulla malesuada, vel ultricies metus tincidunt. Aenean ac neque sed diam malesuada consectetur nec quis libero. Aliquam erat volutpat. Nam sodales, sapien eget maximus fermentum, diam mauris malesuada eros, vel condimentum nisi nulla ac velit."
-        },
-      ],
+      posts:[],
       state: store.state
     }
+  },
+  async created(){
+    this.posts = await Post.getPosts();
+    this.posts = this.posts.reverse();
+    setInterval(async ()=>{
+      this.posts = await Post.getPosts();
+      this.posts = this.posts.reverse();
+    }, 180000)
   }
 }
 </script>

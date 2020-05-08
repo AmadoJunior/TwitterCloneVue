@@ -23,14 +23,13 @@ export const store = {
         this.state.loggedIn = false;
         this.state.token = null;
         this.state.userData = null;
-      }, 10000)
+      }, 10000000000)
     } catch(err) {
       console.log(err);
     }
     
   }
 }
-
 new Vue({
   render: h => h(App),
 }).$mount('#app')

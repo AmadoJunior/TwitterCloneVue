@@ -50,9 +50,6 @@ export default {
     #profile{
         margin: 15px;
     }
-    #content{
-        
-    }
     #actions{
         margin: 0px 0px 15px 0px;
         padding: 0px;

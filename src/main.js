@@ -15,7 +15,7 @@ export const store = {
   async authenticate(userName, email, password){
     try{
       const data = await User.getToken(userName, email, password);
-      console.log(data);
+      this.state.error = false;
       this.state.token = data.token;
       this.state.userData = data.userData;
       this.state.loggedIn = true;
@@ -26,6 +26,7 @@ export const store = {
       }, 10000000000)
     } catch(err) {
       console.log(err);
+      this.state.error = true;
     }
     
   }

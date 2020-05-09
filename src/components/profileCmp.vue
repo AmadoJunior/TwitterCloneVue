@@ -34,7 +34,7 @@
 
         <textarea type="text" 
         placeholder="Write a new Post ..." 
-        class="input" 
+        class="postInput" 
         @focus="toggleExpand()" 
         @blur="toggleExpand()" 
         v-model="postMessage" >
@@ -105,7 +105,7 @@ export default {
         padding: 15px;
         margin: -1px;
     }
-    .input{
+    .postInput{
         resize: none;
         border-radius: 15px;
         background-color: #f0f0f0;
@@ -115,7 +115,7 @@ export default {
         transition: 1s;
         margin: -1px;
     }
-    .input:focus{
+    .postInput:focus{
         height: 150px;
     }
     #postButton{

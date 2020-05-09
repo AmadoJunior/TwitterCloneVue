@@ -15,7 +15,7 @@ class Post{
             message: message
         }
         const response = await axios.post(url, postData, {headers: {"authorization": "Bearer " + store.state.token}});
-        console.log(response);
+        console.log(response.data);
     }
 }
 export default Post;

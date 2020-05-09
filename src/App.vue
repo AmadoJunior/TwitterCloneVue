@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <profileCmp v-if="state.loggedIn" />
-    <logInCmp v-else />
+    <component v-else :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" />
     <div id="posts">
       <postCmp v-for="post in posts" 
       :key="post._id" 
@@ -16,6 +16,7 @@
 import postCmp from "./components/postCmp";
 import profileCmp from "./components/profileCmp";
 import logInCmp from "./components/logInCmp";
+import signUpCmp from "./components/signUpCmp";
 import {store} from "./main";
 import Post from "./tools/postService";
 
@@ -24,12 +25,22 @@ export default {
   components: {
     postCmp,
     profileCmp,
-    logInCmp
+    logInCmp,
+    signUpCmp
   },
   data(){
     return{
       posts:[],
-      state: store.state
+      state: store.state,
+      selectedCmp: "logInCmp"
+    }
+  },
+  methods:{
+    toggleLogIn(){
+      this.selectedCmp = "logInCmp"
+    },
+    toggleSignUp(){
+      this.selectedCmp = "signUpCmp"
     }
   },
   async created(){
@@ -64,5 +75,44 @@ textarea, input{
   display:flex;
   justify-content: center;
   align-items:flex-start;
+}
+#errorMessage{
+  color:red;
+  margin: 10px 0px 0px 0px;
+  font-size: 12px;
+}
+.toggleSwitch{
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #4b8cee;
+  cursor: pointer;
+}
+.button{
+  padding:6px;
+  background-color: #4b8cee;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  margin: 10px 0px 10px 0px;
+  width: 70px;
+  cursor: pointer;
+}
+.input{
+  border-radius: 15px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin: 15px 15px 0px 15px;
+  width: 200px;
+}
+.userContainer{
+  background-color: white;
+  border-radius: 15px;
+  border: solid 1px #c1c1c1;
+  margin: 15px;
+  max-height: 400px;
+  width: 300px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

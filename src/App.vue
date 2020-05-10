@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <profileCmp v-if="state.loggedIn" />
+    <profileCmp v-if="isLoggedIn" />
     <component v-else :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" />
     <div id="posts">
       <postCmp v-for="post in posts" 
@@ -17,7 +17,7 @@ import postCmp from "./components/postCmp";
 import profileCmp from "./components/profileCmp";
 import logInCmp from "./components/logInCmp";
 import signUpCmp from "./components/signUpCmp";
-import {store} from "./main";
+import {eventBus} from "./main";
 import Post from "./tools/postService";
 
 export default {
@@ -31,8 +31,8 @@ export default {
   data(){
     return{
       posts:[],
-      state: store.state,
-      selectedCmp: "logInCmp"
+      selectedCmp: "logInCmp",
+      isLoggedIn: false
     }
   },
   methods:{
@@ -44,12 +44,28 @@ export default {
     }
   },
   async created(){
+    //Get posts
     this.posts = await Post.getPosts();
     this.posts = this.posts.reverse();
     setInterval(async ()=>{
       this.posts = await Post.getPosts();
       this.posts = this.posts.reverse();
     }, 180000)
+
+    //Listen
+    let vm = this;
+    if(localStorage.token !== undefined){
+      vm.isLoggedIn = true;
+    }else {
+      vm.isLoggedIn = false;
+    }
+
+    eventBus.$on("tokenAdded", ()=>{
+      vm.isLoggedIn = true;
+    })
+    eventBus.$on("tokenRemoved", ()=>{
+      vm.isLoggedIn = false;
+    })
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import axios from "axios"
-import {store} from "./../main";
+import {eventBus} from "./../main";
 
 const url = "api/post/"
 
@@ -14,8 +14,14 @@ class Post{
             userName: userName,
             message: message
         }
-        const response = await axios.post(url, postData, {headers: {"authorization": "Bearer " + store.state.token}});
-        console.log(response.data);
+        try{
+            const response = await axios.post(url, postData, {headers: {"authorization": "Bearer " + localStorage.token}});
+            console.log(response.data);
+        } catch(err){
+            eventBus.reset();
+            console.log(err);
+        }
+        
     }
 }
 export default Post;

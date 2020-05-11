@@ -11,6 +11,7 @@
 
 <script>
 import {eventBus} from "./../main";
+
 export default {
     data(){
         return {
@@ -27,6 +28,12 @@ export default {
         toggle(){
             this.$emit("goToSignUp");
         }
+    },
+    created(){
+        let vm = this;
+        eventBus.$on("authFailed", () => {
+            vm.error = true;
+        })
     }
 }
 </script>

@@ -7,7 +7,7 @@
 
         <div id="stats">
             <div class="statContainer">
-                <span>
+                <span class="number">
                     5000
                 </span>
                 <span>
@@ -15,7 +15,7 @@
                 </span>
             </div>
             <div class="statContainer">
-                <span>
+                <span class="number">
                     50
                 </span>
                 <span>
@@ -23,7 +23,7 @@
                 </span>
             </div>
             <div class="statContainer">
-                <span>
+                <span class="number">
                     400
                 </span>
                 <span>
@@ -55,8 +55,7 @@ export default {
         return{
             isWriting: false,
             isInactive: true,
-            postMessage: "",
-            userName: "PlaceHolder"
+            postMessage: ""
         }
     },
     methods:{
@@ -67,8 +66,16 @@ export default {
             }, 200);
         },
         post(){
-            Post.sendPost(this.userName, this.postMessage);
-            this.postMessage = "";
+            if(this.postMessage.length > 1){
+                Post.sendPost(this.userName, this.postMessage);
+                this.postMessage = "";
+            }
+            
+        }
+    },
+    computed:{
+        userName(){
+            return localStorage.userName;
         }
     }
 }
@@ -82,18 +89,20 @@ export default {
     }
     h3{
         margin-top: 0px;
+        color: white;
     }
     #profileContainer{
         position: relative;
         background-color: white;
         border-radius: 15px;
-        border: solid 1px #c1c1c1;
+        border: solid .5px #c1c1c1;
         display:flex;
         flex-direction: column;
         justify-content: space-between;
         margin: 15px;
         max-height: 400px;
         width: 300px;
+        flex-shrink: 0;
     }
     #topContainer{
         border-radius: 15px;
@@ -111,7 +120,7 @@ export default {
         background-color: #f0f0f0;
         padding: 10px;
         height: 15px;
-        transition: 1s;
+        transition: 1s ease-in-out;
         margin: -1px;
     }
     .postInput:focus{
@@ -129,12 +138,19 @@ export default {
         border-radius: 15px;
         border: none;
         cursor: pointer;
+        transition: .2s ease-in-out;
+        transition-delay: 100ms;
+    }
+    #postButton:hover{
+        background-color: rgb(47, 117, 223);
     }
     .writing{
-        display: static;
+        visibility: visible;
+        opacity: 1;
     }
     .inactive{
-        display:none;
+        visibility: hidden;
+        opacity: 0;
     }
     #stats{
         display:flex;
@@ -146,6 +162,10 @@ export default {
         flex-direction:column;
         align-items: center;
         font-size: 12px;
+    }
+    .number{
+        color:#4B8CEE;
+        font-size: 15px;
     }
 
 </style>

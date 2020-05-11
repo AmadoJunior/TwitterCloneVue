@@ -27,7 +27,8 @@ export default {
 </script>
 
 <style scoped>
-    h4{
+    h4{ 
+        cursor: pointer;
         margin: 20px 0px 8px 0px;
     }
     p{
@@ -37,7 +38,7 @@ export default {
     #postContainer{
         background-color: white;
         border-radius: 15px;
-        border: solid 1px #c1c1c1;
+        border: solid .5px #c1c1c1;
         display:grid;
         grid-template-columns:1fr 12fr;
         grid-template-rows: 1fr;
@@ -58,8 +59,15 @@ export default {
         max-width: 300px;
     }
     .actions{
+        cursor: pointer;
         padding: 5px;
         margin: 0px 70px 0px 0px;
         transform: scale(1.05);
+        background-color: rgba(220, 220, 220, 0);
+        border-radius: 15px;
+        transition: .5s;
+    }
+    .actions:hover{
+        background-color: rgba(220, 220, 220, 0.767);
     }
 </style>

@@ -1,4 +1,5 @@
 <template>
+
     <div class="userContainer">
         <input type="text" class="input" placeholder="User Name" v-model="userName">
         <input type="text" class="input" placeholder="Email" v-model="email">
@@ -7,12 +8,15 @@
         <button class="button" @click="signUp()">Sign Up</button>
         <span @click="toggle()" class="toggleSwitch">Log in</span>
     </div>
+
 </template>
 
 <script>
 import User from "./../tools/userService";
 
 export default {
+    components:{
+    },
     data(){
         return {
             userName: "",

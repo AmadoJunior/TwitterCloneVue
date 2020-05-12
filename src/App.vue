@@ -1,6 +1,8 @@
 <template>
   <div id="app" v-if="feedTab">
+    <topBarCmp :isLoggedIn="isLoggedIn" />
 
+    <main id="main">
       <div id="sticky">
         <fade>
           <profileCmp v-if="isLoggedIn == true"/>
@@ -8,23 +10,26 @@
         </fade>
       </div>
 
-          <translate>
-            <postCmp 
-            v-for="post in posts" 
-            :key="post._id" 
-            :userName="post.userName" 
-            :postMessage="post.message" 
-            />
-          </translate>
-      
+      <translate>
+        <postCmp 
+        v-for="post in posts" 
+        :key="post._id" 
+        :userName="post.userName" 
+        :postMessage="post.message" 
+        />
+      </translate>
+    </main>
   </div>
 </template>
 
 <script>
+//Cmps
 import postCmp from "./components/postCmp";
 import profileCmp from "./components/profileCmp";
 import logInCmp from "./components/logInCmp";
 import signUpCmp from "./components/signUpCmp";
+import topBarCmp from "./components/topBarCmp";
+//Tools
 import {eventBus} from "./main";
 import Post from "./tools/postService";
 //Transitions
@@ -39,7 +44,8 @@ export default {
     logInCmp,
     signUpCmp,
     fade,
-    translate
+    translate,
+    topBarCmp
   },
   data(){
     return{
@@ -99,23 +105,31 @@ export default {
 body{
   margin: 0px;
   background-color:#f8f8f8;
+
 }
 textarea, input{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 13px;
   border:solid .5px #c1c1c1;
+  outline-style: none;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 0px;
-  padding: 10px;
+  margin: 0px;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+#main{
   display:flex;
   justify-content: center;
   align-items:flex-start;
+  margin-top: 60px;
+  padding: 15px;
 }
 #errorMessage{
   color:red;
@@ -175,7 +189,7 @@ textarea, input{
 }
 #sticky{
   position: sticky;
-  top: 10px;
+  top: 75px;
 }
 
 </style>

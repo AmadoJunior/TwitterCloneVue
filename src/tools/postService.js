@@ -16,6 +16,7 @@ class Post{
         }
         try{
             const response = await axios.post(url, postData, {headers: {"authorization": "Bearer " + localStorage.token}});
+            eventBus.$emit("messagePosted");
             console.log(response.data);
         } catch(err){
             eventBus.reset();

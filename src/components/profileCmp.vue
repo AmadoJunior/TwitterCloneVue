@@ -95,7 +95,7 @@ export default {
         position: relative;
         background-color: white;
         border-radius: 15px;
-        border: solid .5px #c1c1c1;
+        box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
         display:flex;
         flex-direction: column;
         justify-content: space-between;
@@ -106,7 +106,7 @@ export default {
     }
     #topContainer{
         border-radius: 15px;
-        background-color: #77abfa;
+        background-color: #5598fd;
         display:flex;
         flex-direction: column;
         align-items: center;
@@ -117,7 +117,6 @@ export default {
         resize: none;
         border-radius: 15px;
         background-color: #f0f0f0;
-        background-color: #f0f0f0;
         padding: 10px;
         height: 15px;
         transition: 1s ease-in-out;
@@ -125,6 +124,7 @@ export default {
     }
     .postInput:focus{
         height: 150px;
+        border: solid 1px #4b8cee;
     }
     #postButton{
         position: absolute;

@@ -1,16 +1,22 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="feedTab">
 
-      <profileCmp v-if="isLoggedIn == true"/>
-      <component v-if="isLoggedIn == false" :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" />
-
-      <div id="posts">
-          <postCmp v-for="post in posts" 
-          :key="post._id" 
-          :userName="post.userName" 
-          :postMessage="post.message" 
-          />
+      <div id="sticky">
+        <fade>
+          <profileCmp v-if="isLoggedIn == true"/>
+          <component v-if="isLoggedIn == false" :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" />
+        </fade>
       </div>
+
+          <translate>
+            <postCmp 
+            v-for="post in posts" 
+            :key="post._id" 
+            :userName="post.userName" 
+            :postMessage="post.message" 
+            />
+          </translate>
+      
   </div>
 </template>
 
@@ -21,7 +27,9 @@ import logInCmp from "./components/logInCmp";
 import signUpCmp from "./components/signUpCmp";
 import {eventBus} from "./main";
 import Post from "./tools/postService";
-
+//Transitions
+import fade from "./components/transitions/fade";
+import translate from "./components/transitions/loadTranslate";
 
 export default {
   name: 'App',
@@ -29,13 +37,16 @@ export default {
     postCmp,
     profileCmp,
     logInCmp,
-    signUpCmp
+    signUpCmp,
+    fade,
+    translate
   },
   data(){
     return{
       posts:[],
       selectedCmp: "logInCmp",
-      isLoggedIn: null
+      isLoggedIn: null,
+      feedTab: true
     }
   },
   methods:{
@@ -47,7 +58,7 @@ export default {
     }
   },
   async created(){
-    //Listen
+    //Listen for Authentification
     let vm = this;
     if(localStorage.token !== undefined){
       eventBus.$on("postsLoaded", () =>{
@@ -66,15 +77,20 @@ export default {
       vm.isLoggedIn = false;
     })
 
-    //Get posts
+    //Get posts on load and every 1 minute
     this.posts = await Post.getPosts();
     this.posts = this.posts.reverse();
     eventBus.$emit("postsLoaded");
     setInterval(async ()=>{
       this.posts = await Post.getPosts();
-      this.posts = this.posts.reverse();
-    }, 180000)
+      this.posts = this.posts.reverse()
+    }, 60000)
 
+    //Reload posts when message added
+    eventBus.$on("messagePosted", async ()=>{
+      this.posts = await Post.getPosts();
+      this.posts = this.posts.reverse();
+    })
   }
 }
 </script>
@@ -82,6 +98,7 @@ export default {
 <style>
 body{
   margin: 0px;
+  background-color:#f8f8f8;
 }
 textarea, input{
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -93,10 +110,9 @@ textarea, input{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color:#f8f8f8;
   margin-top: 0px;
   padding: 10px;
-  height: 100vh;
+  height: auto;
   display:flex;
   justify-content: center;
   align-items:flex-start;
@@ -107,7 +123,6 @@ textarea, input{
   font-size: 12px;
 }
 .toggleSwitch{
-  backface-visibility: hidden;
   margin: -5px 0px 10px 0px;
   font-size: 13px;
   color: #4b8cee;
@@ -138,20 +153,29 @@ textarea, input{
 .input{
   border-radius: 15px;
   background-color: #f0f0f0;
+  border: solid 1px rgb(219, 219, 219);
   padding: 10px;
   margin: 15px 15px 0px 15px;
   width: 200px;
+  transition: .5s ease-in-out;
+}
+.input:focus{
+  border: solid 1px #4b8cee;
 }
 .userContainer{
   background-color: white;
   border-radius: 15px;
-  border: solid .5px #c1c1c1;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
   margin: 15px;
   max-height: 400px;
   width: 300px;
   display:flex;
   flex-direction: column;
   align-items: center;
+}
+#sticky{
+  position: sticky;
+  top: 10px;
 }
 
 </style>

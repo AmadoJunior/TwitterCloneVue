@@ -14,6 +14,7 @@
 </template>
 
 <script>
+
 export default {
     props:{
         userName: String,
@@ -28,7 +29,6 @@ export default {
 
 <style scoped>
     h4{ 
-        cursor: pointer;
         margin: 20px 0px 8px 0px;
     }
     p{
@@ -36,9 +36,10 @@ export default {
         margin: 0px 20px 20px 0px;
     }
     #postContainer{
+        backface-visibility: hidden;
         background-color: white;
         border-radius: 15px;
-        border: solid .5px #c1c1c1;
+        box-shadow: 0 5px 15px 0 rgba(0,0,0,.1);
         display:grid;
         grid-template-columns:1fr 12fr;
         grid-template-rows: 1fr;
@@ -66,8 +67,10 @@ export default {
         background-color: rgba(220, 220, 220, 0);
         border-radius: 15px;
         transition: .5s;
+        opacity: .7;
     }
     .actions:hover{
         background-color: rgba(220, 220, 220, 0.767);
+        opacity: 1;
     }
 </style>

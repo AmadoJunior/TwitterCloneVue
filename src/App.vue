@@ -1,12 +1,13 @@
 <template>
   <div id="app" v-if="feedTab">
-    <topBarCmp :isLoggedIn="isLoggedIn" />
+    <topBarCmp :isLoggedIn="isLoggedIn" :settingPopUp="settingPopUp" />
+    <settingPopUpCmp v-if="settingPopUp"/>
 
-    <main id="main">
-      <div id="sticky">
+    <main id="main" :class="{blur: settingPopUp}">
+      <div id="sticky" >
         <fade>
           <profileCmp v-if="isLoggedIn == true"/>
-          <component v-if="isLoggedIn == false" :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" />
+          <component v-if="isLoggedIn == false" :is="selectedCmp" @goToLogIn="toggleLogIn()" @goToSignUp="toggleSignUp()" id="collection"/>
         </fade>
       </div>
 
@@ -15,7 +16,9 @@
         v-for="post in posts" 
         :key="post._id" 
         :userName="post.userName" 
+        :profileImg="post.profileImg"
         :postMessage="post.message" 
+        :_id="post._id"
         />
       </translate>
     </main>
@@ -29,6 +32,7 @@ import profileCmp from "./components/profileCmp";
 import logInCmp from "./components/logInCmp";
 import signUpCmp from "./components/signUpCmp";
 import topBarCmp from "./components/topBarCmp";
+import settingPopUpCmp from "./components/settingPopUpCmp";
 //Tools
 import {eventBus} from "./main";
 import Post from "./tools/postService";
@@ -45,14 +49,17 @@ export default {
     signUpCmp,
     fade,
     translate,
-    topBarCmp
+    topBarCmp,
+    settingPopUpCmp
   },
   data(){
     return{
       posts:[],
       selectedCmp: "logInCmp",
       isLoggedIn: null,
-      feedTab: true
+      feedTab: true,
+      settingPopUp: false,
+      isWritting: false
     }
   },
   methods:{
@@ -80,7 +87,7 @@ export default {
       vm.isLoggedIn = true;
     })
     eventBus.$on("tokenRemoved", ()=>{
-      vm.isLoggedIn = false;
+        vm.isLoggedIn = false;
     })
 
     //Get posts on load and every 1 minute
@@ -97,6 +104,21 @@ export default {
       this.posts = await Post.getPosts();
       this.posts = this.posts.reverse();
     })
+    eventBus.$on("postRemoved", async ()=>{
+      this.posts = await Post.getPosts();
+      this.posts = this.posts.reverse();
+    })
+
+    //Overlap
+    eventBus.$on("isWritting", () => {
+      this.isWritting = !this.isWritting
+    })
+
+    //Popup
+    eventBus.$on("popUp", () => {
+      this.settingPopUp = !this.settingPopUp;
+    })
+
   }
 }
 </script>
@@ -112,6 +134,16 @@ textarea, input{
   font-size: 13px;
   border:solid .5px #c1c1c1;
   outline-style: none;
+}
+@media only screen and (max-width: 800px) {
+  #main{
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+  }
+  #sticky{
+    position: static !important;
+  }
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -130,6 +162,7 @@ textarea, input{
   align-items:flex-start;
   margin-top: 60px;
   padding: 15px;
+  width: auto;
 }
 #errorMessage{
   color:red;
@@ -190,6 +223,9 @@ textarea, input{
 #sticky{
   position: sticky;
   top: 75px;
+}
+.blur{
+  filter: blur(2px);
 }
 
 </style>

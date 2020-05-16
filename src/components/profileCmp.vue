@@ -1,8 +1,8 @@
 <template>
     <div id="profileContainer">
-        <div id="topContainer">
-            <img src="./../assets/tempProfile.png">
-            <h3>{{userName}}</h3>
+        <div id="topContainer" :style="{backgroundImage: 'url(' + userData.backgroundImg +')'}">
+            <div id="profile" :style="{ backgroundImage: `url('${userData.profileImg}')` }"/>
+            <h3>{{userData.userName}}</h3>
         </div>
 
         <div id="stats">
@@ -49,10 +49,13 @@
 
 <script>
 import Post from "./../tools/postService";
+import User from "./../tools/userService";
+import {eventBus} from "./../main";
 
 export default {
     data(){
         return{
+            userData: {},
             isWriting: false,
             isInactive: true,
             postMessage: ""
@@ -67,29 +70,36 @@ export default {
         },
         post(){
             if(this.postMessage.length > 1){
-                Post.sendPost(this.userName, this.postMessage);
+                Post.sendPost(this.userData.userName, this.userData.profileImg, this.postMessage);
                 this.postMessage = "";
             }
             
         }
     },
-    computed:{
-        userName(){
-            return localStorage.userName;
-        }
+    async created(){
+        this.userData = await User.getUserData(localStorage.userName);
+
+        let vm = this;
+        eventBus.$on("popUp", async () => {
+            vm.userData = await User.getUserData(localStorage.userName);
+        })
+
     }
 }
 </script>
 
 <style scoped>
-    img{
-        height: 70px;
-        width: 70px;
-        margin: 15px;
-    }
     h3{
         margin-top: 0px;
         color: white;
+    }
+    #profile{
+        height: 70px;
+        width: 70px;
+        margin: 15px;
+        background-size: cover;
+        background-position: center;
+        border: solid 2px white;
     }
     #profileContainer{
         position: relative;
@@ -100,17 +110,19 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         margin: 15px;
-        max-height: 400px;
         width: 300px;
+        min-height: 265px;
         flex-shrink: 0;
     }
     #topContainer{
+        background-size: cover;
+        background-position: center;
         border-radius: 15px;
         background-color: #5598fd;
         display:flex;
         flex-direction: column;
         align-items: center;
-        padding: 15px;
+        padding: 10px;
         margin: -1px;
     }
     .postInput{

@@ -9,9 +9,10 @@ class Post{
         return response.data;
     }
 
-    static async sendPost(userName, message){
+    static async sendPost(userName, profileImg, message){
         const postData = {
             userName: userName,
+            profileImg: profileImg,
             message: message
         }
         try{
@@ -23,6 +24,14 @@ class Post{
             console.log(err);
         }
         
+    }
+
+    static async removePost(id){
+        try{
+            await axios.delete(url + id, {headers: {"authorization": "Bearer " + localStorage.token}})
+        } catch(err) {
+            console.log(err);
+        }
     }
 }
 export default Post;

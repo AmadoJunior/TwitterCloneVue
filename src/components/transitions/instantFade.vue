@@ -10,15 +10,9 @@ export default {
     
 }
 </script>
-<style scoped>
-    .fade-leave-active{
-        transition-property: opacity;
-        transition-duration:.5s;
-    }
-    .fade-enter-active{
-        transition-property: opacity;
-        transition-duration: .5s;
-        transition-delay: 1s;
+<style>
+    .fade-enter-active, .fade-leave-active{
+        transition: opacity .5s ease-in-out;
     }
     .fade-enter, .fade-leave-to{
         opacity: 0;

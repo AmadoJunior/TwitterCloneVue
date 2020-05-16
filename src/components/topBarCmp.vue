@@ -1,21 +1,29 @@
 <template>
-    
-        <div id="container">
+    <div id="container">
+        <div id="inner">
             <transition name="smooth" appear>
             <div id="logo">
                 <h1>Lorem</h1>
-                <img src="./../assets/exchangeSmall.png">
+                <img src="./../assets/exchangeSmall.png" >
             </div>
             </transition>
             <transition name="smooth" appear>
-            <button
-            id="logout" 
-            v-show="isLoggedIn" 
-            @click="logout()"
-            >Logout</button>
+                <div id="menu">
+                    <img src="./../assets/settings.png" 
+                    id="cogWheel" 
+                    @click="popUp()" 
+                    :class="{cogWheelActive: settingPopUp}"
+                    v-show="isLoggedIn"
+                    >
+                    <button
+                    id="logout" 
+                    v-show="isLoggedIn" 
+                    @click="logout()"
+                    >Logout</button>
+                </div>
             </transition>
         </div>
-
+    </div>
 </template>
 
 <script>
@@ -23,7 +31,8 @@ import {eventBus} from "./../main";
 
 export default {
     props:{
-        isLoggedIn: Boolean
+        isLoggedIn: Boolean,
+        settingPopUp: Boolean
     },
     data(){
         return{
@@ -33,6 +42,9 @@ export default {
     methods:{
         logout(){
             eventBus.reset();
+        },
+        popUp(){
+            eventBus.$emit("popUp")
         }
     }
     
@@ -63,9 +75,16 @@ export default {
     height: 70px;
     position: fixed;
     z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+#inner{
     display:flex;
-    justify-content: space-evenly;
+    width:100%;
+    justify-content: space-between;
     align-items: center;
+    max-width: 1050px;
+    margin: 0px 30px 0px 30px;
 }
 #logo{
     color: #295596;
@@ -86,6 +105,10 @@ h1{
     line-height: 42px;
     margin-right: -10px;
 }
+#menu{
+    display:flex;
+
+}
 #logout{
     cursor: pointer;
     border-radius: 15px;
@@ -96,5 +119,18 @@ h1{
 }
 #logout:hover{
     background-color: rgb(211, 61, 61);
+}
+#cogWheel {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    border-radius: 15px;
+}
+.cogWheelActive{
+    background-color: lightgrey;
+}
+#cogWheel:hover{
+    background-color: lightgrey;
 }
 </style>

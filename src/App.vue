@@ -97,7 +97,7 @@ export default {
     setInterval(async ()=>{
       this.posts = await Post.getPosts();
       this.posts = this.posts.reverse()
-    }, 60000)
+    }, 600000)
 
     //Reload posts when message added
     eventBus.$on("messagePosted", async ()=>{
@@ -143,6 +143,9 @@ textarea, input{
   }
   #sticky{
     position: static !important;
+    display: flex;
+    min-width: 330px;
+    max-width: 330px;
   }
 }
 #app {
@@ -215,10 +218,13 @@ textarea, input{
   box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
   margin: 15px;
   max-height: 400px;
+  min-width: 300px;
+  height: 265px;
   width: 300px;
   display:flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 #sticky{
   position: sticky;

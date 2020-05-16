@@ -65,7 +65,7 @@ h4{
     cursor: default;
 }
 #container{
-    position: absolute;
+    position: fixed;
     top: 100px;
     background-color: white;
     border-radius: 15px;
@@ -76,6 +76,7 @@ h4{
     justify-content: flex-start;
     align-items: center;
     z-index: 99;
+    min-width: 300px;
 }
 .btn{
     padding: 8px;

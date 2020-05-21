@@ -111,7 +111,7 @@ export default {
         justify-content: space-between;
         margin: 15px;
         width: 300px;
-        height: 265px;
+        height: auto;
         flex-shrink: 0;
     }
     #topContainer{

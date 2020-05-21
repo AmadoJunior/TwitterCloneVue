@@ -71,7 +71,7 @@ export default {
     background-color: white;
     box-shadow: 0 5px 15px 0 rgba(0,0,0,.1);
     border-radius: 0px 0px 15px 15px;
-    width: 100%;
+    width: 100vw;
     height: 70px;
     position: fixed;
     z-index: 1;

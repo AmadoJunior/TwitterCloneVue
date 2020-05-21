@@ -101,12 +101,22 @@ export default {
 
     //Reload posts when message added
     eventBus.$on("messagePosted", async ()=>{
-      this.posts = await Post.getPosts();
-      this.posts = this.posts.reverse();
+      try{
+        this.posts = await Post.getPosts();
+        this.posts = this.posts.reverse();
+      } catch(err) {
+        console.log(err);
+      }
+      
     })
     eventBus.$on("postRemoved", async ()=>{
-      this.posts = await Post.getPosts();
-      this.posts = this.posts.reverse();
+      try{
+        this.posts = await Post.getPosts();
+        this.posts = this.posts.reverse();
+      } catch(err) {
+        console.log(err);
+      }
+
     })
 
     //Overlap
@@ -119,6 +129,10 @@ export default {
       this.settingPopUp = !this.settingPopUp;
     })
 
+  },
+  beforeDestoy(){
+    eventBus.$off("postRemoved");
+    eventBus.$off("messagePosted");
   }
 }
 </script>
@@ -144,8 +158,9 @@ textarea, input{
   #sticky{
     position: static !important;
     display: flex;
-    min-width: 330px;
-    max-width: 330px;
+    min-width: 330px !important;
+    max-width: 330px !important;
+    min-height: 293px !important;
   }
 }
 #app {

@@ -93,8 +93,8 @@ export default {
 }
 img{
     padding: 5px;
-    height: 64px;
-    width: 64px;
+    height: 44px;
+    width: 44px;
 }
 h1{
     cursor: default;

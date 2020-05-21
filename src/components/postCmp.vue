@@ -30,7 +30,6 @@ import drop from "./transitions/drop";
 import fade from "./transitions/fade";
 
 export default {
-    el: "postCmp",
     created(){
         setTimeout(()=>{
             if(
@@ -83,7 +82,6 @@ export default {
         },
         removePost(){
             Post.removePost(this._id);
-            eventBus.$emit("postRemoved");
             this.active = !this.active;
         }
     }

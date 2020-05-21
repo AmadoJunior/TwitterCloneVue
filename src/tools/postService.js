@@ -27,11 +27,13 @@ class Post{
     }
 
     static async removePost(id){
-        try{
-            await axios.delete(url + id, {headers: {"authorization": "Bearer " + localStorage.token}})
-        } catch(err) {
-            console.log(err);
-        }
+            axios.delete(url + id, {headers: {"authorization": "Bearer " + localStorage.token}})
+            .then(() => {
+                eventBus.$emit("postRemoved");
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 }
 export default Post;
